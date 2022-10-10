@@ -1,11 +1,11 @@
 import { isMatch } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Modal, Text, TextInput, FlatList, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Modal, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
 import BackgroundView from '../components/BackgroundView';
 import CustomButton from '../components/CustomButton';
-import { NAME_COLOR, TAB_INACTIVE_COLOR, WHITE_COLOR } from '../styles/color';
-import { CAMERA, EDIT, EMPTY_PHOTO, USER } from '../styles/images';
-import { ADDRESS, BOIGRAPHY, CANCEL, DATEBIRTH, EMAIL, NAME, PHONE, SAVE, WEBSITE } from '../utility/strings';
+import { BACKGROUND_COLOR, ERROR_COLOR, LIGHT_GREY_COLOR, MAIN_INFO_TITLE_COLOR, NAME_COLOR, TAB_INACTIVE_COLOR, WHITE_COLOR } from '../styles/color';
+import { CAMERA, EDIT } from '../styles/images';
+import { ADDRESS, ADDRESS_ERROR, BIRTH_ERROR, BOIGRAPHY, CANCEL, DATEBIRTH, EMAIL, EMAIL_ERROR, NAME, NAME_ERROR, PHONE, SAVE, WEBSITE } from '../utility/strings';
 import { scale } from '../utility/utility';
 
 
@@ -122,7 +122,7 @@ const ProfileScreen = (props) => {
                                     onSubmitEditing={() => { validateName() }}
                                     maxLength={50}>
                                 </TextInput>
-                                {!nameCorrect && <Text style={styles.errorStyle}>{'Name should be at least 4 symbols'}</Text>}
+                                {!nameCorrect && <Text style={styles.errorStyle}>{NAME_ERROR}</Text>}
                             </View>
                             <View style={styles.editItem}>
                                 <Text style={styles.infoHeaderStyle}>{EMAIL}</Text>
@@ -134,7 +134,7 @@ const ProfileScreen = (props) => {
                                     onSubmitEditing={() => { validateEmail() }}
                                     maxLength={30}>
                                 </TextInput>
-                                {!emailCorrect && <Text style={styles.errorStyle}>{'Email should be at least 6 symbols'}</Text>}
+                                {!emailCorrect && <Text style={styles.errorStyle}>{EMAIL_ERROR}</Text>}
                             </View>
                             <View style={styles.editItem}>
                                 <Text style={styles.infoHeaderStyle}>{DATEBIRTH}</Text>
@@ -146,7 +146,7 @@ const ProfileScreen = (props) => {
                                     onSubmitEditing={() => { validateBirth() }}
                                     maxLength={10}>
                                 </TextInput>
-                                {!birthCorrect && <Text style={styles.errorStyle}>{'Date of Birth should be 10 symbols mm/dd/yyyy'}</Text>}
+                                {!birthCorrect && <Text style={styles.errorStyle}>{BIRTH_ERROR}</Text>}
                             </View>
                             <View style={styles.editItem}>
                                 <Text style={styles.infoHeaderStyle}>{ADDRESS}</Text>
@@ -158,7 +158,7 @@ const ProfileScreen = (props) => {
                                     onSubmitEditing={() => { validateAddress() }}
                                     maxLength={100}>
                                 </TextInput>
-                                {!addressCorrect && <Text style={styles.errorStyle}>{'Address should be at least 10 symbols'}</Text>}
+                                {!addressCorrect && <Text style={styles.errorStyle}>{ADDRESS_ERROR}</Text>}
                             </View>
                             <View style={styles.editItem}>
                                 <Text style={styles.infoHeaderStyle}>{BOIGRAPHY}</Text>
@@ -233,7 +233,7 @@ const ProfileScreen = (props) => {
                             <Text style={styles.infoSubheaderStyle} numberOfLines={6}>{bio}</Text>
                         </View>
                     }
-                    {!(number == ' ' &&  website == ' ') && <View style={[styles.infoContainer, { height: 'auto' }]}>
+                    {!(number == ' ' && website == ' ') && <View style={[styles.infoContainer, { height: 'auto' }]}>
                         {website != ' ' &&
                             <View style={styles.contactContainer}>
                                 <Text style={styles.infoHeaderStyle}>{WEBSITE}</Text>
@@ -245,12 +245,12 @@ const ProfileScreen = (props) => {
                                 <Text style={styles.contactTextStyle} numberOfLines={1}>{number}</Text>
                             </View>}
                     </View>}
-                    <TouchableOpacity
-                        style={styles.editContainer}
-                        onPress={() => { editProfile() }}>
-                        <Image style={styles.editImageStyle} source={EDIT}></Image>
-                    </TouchableOpacity>
                 </View>
+                <TouchableOpacity
+                    style={styles.editContainer}
+                    onPress={() => { editProfile() }}>
+                    <Image style={styles.editImageStyle} source={EDIT}></Image>
+                </TouchableOpacity>
             </BackgroundView>
         </>
     )
@@ -261,12 +261,10 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         flexDirection: 'column',
-        //justifyContent:'center',
         alignItems: 'center',
         marginTop: scale(10),
     },
     baseInfoContainer: {
-        //height: scale(70),
         height: 'auto',
         width: '90%',
         backgroundColor: WHITE_COLOR,
@@ -279,7 +277,7 @@ const styles = StyleSheet.create({
     imageContainerStyle: {
         height: scale(60),
         width: '30%',
-        backgroundColor: '#e1e2e3',
+        backgroundColor: LIGHT_GREY_COLOR,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
@@ -311,7 +309,7 @@ const styles = StyleSheet.create({
     infoTitleStyle: {
         fontSize: 12,
         fontWeight: '600',
-        color: '#929294'
+        color: MAIN_INFO_TITLE_COLOR
     },
     infoTextStyle: {
         fontSize: 14,
@@ -338,7 +336,7 @@ const styles = StyleSheet.create({
     infoSubheaderStyle: {
         fontSize: 14,
         fontWeight: '500',
-        color: '#929294',
+        color: MAIN_INFO_TITLE_COLOR,
         marginTop: scale(2)
     },
     contactContainer: {
@@ -347,7 +345,7 @@ const styles = StyleSheet.create({
     contactTextStyle: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#929294',
+        color: MAIN_INFO_TITLE_COLOR,
     },
     editImageStyle: {
         height: scale(16),
@@ -355,34 +353,29 @@ const styles = StyleSheet.create({
     },
     editContainer: {
         alignSelf: 'flex-end',
-        marginTop: scale(30),
+        alignContent: 'flex-end',
+        marginBottom: scale(10),
         marginRight: '5%'
     },
     editViewContainer: {
-        backgroundColor: '#e2f4ff',
+        backgroundColor: BACKGROUND_COLOR,
         flex: 1,
         flexDirection: 'column'
     },
     editFieldsContainer: {
-        //flex: 0.9,
-        //backgroundColor: '#BBBCCC',
         height: scale(248),
         alignItems: 'center',
         paddingVertical: scale(10)
     },
     btnResContainer: {
-        //flex: 0.1,
         height: scale(25),
         flexDirection: 'row',
         justifyContent: 'space-between',
-        //backgroundColor: WHITE_COLOR,
     },
     textInputStyle: {
         height: scale(15),
-        //height: 'auto',
         width: '90%',
         marginTop: '3%',
-        //backgroundColor: WHITE_COLOR,
         borderRadius: 7,
         borderColor: TAB_INACTIVE_COLOR,
         borderWidth: 1,
@@ -392,8 +385,6 @@ const styles = StyleSheet.create({
     editItem: {
         height: 'auto',
         width: '90%',
-        //backgroundColor: WHITE_COLOR,
-        //borderRadius: 10,
         flexDirection: 'column',
         alignItems: 'flex-start',
         paddingBottom: scale(6)
@@ -401,7 +392,7 @@ const styles = StyleSheet.create({
     errorStyle: {
         fontSize: 12,
         fontWeight: '500',
-        color: '#de5252',
+        color: ERROR_COLOR,
         marginTop: scale(2)
     }
 

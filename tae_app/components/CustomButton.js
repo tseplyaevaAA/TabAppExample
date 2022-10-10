@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { BUTTON_COLOR, TAB_ACTIVE_COLOR, TAB_INACTIVE_COLOR } from '../styles/color';
+import { TAB_ACTIVE_COLOR, TAB_INACTIVE_COLOR } from '../styles/color';
 import { scale } from '../utility/utility';
 
 const CustomButton = (props) => {
     return (
         <TouchableOpacity
-            style={[styles.containerStyle, {borderColor: props.active ? TAB_ACTIVE_COLOR : TAB_INACTIVE_COLOR}]}
+            style={[styles.containerStyle, { borderColor: props.active ? TAB_ACTIVE_COLOR : TAB_INACTIVE_COLOR }]}
             onPress={props.action}>
-            <Text style={[styles.textStyle, {color: props.active ? TAB_ACTIVE_COLOR : TAB_INACTIVE_COLOR}]}>
+            <Text style={[styles.textStyle, { color: props.active ? TAB_ACTIVE_COLOR : TAB_INACTIVE_COLOR }]}>
                 {props.text}
             </Text>
         </TouchableOpacity>
