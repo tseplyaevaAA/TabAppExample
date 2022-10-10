@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "TabAppExample",
+    "slug": "TabAppExample",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "TabAppExample"
+}
