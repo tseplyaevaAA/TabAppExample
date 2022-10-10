@@ -1,0 +1,12 @@
+export const PROFILE_TAB = 'Profile';
+export const ANIMATION_TAB = 'Animation';
+export const NEWS_TAB = 'News';
+export const EMAIL = 'Email';
+export const DATEBIRTH = 'Date of Birth';
+export const ADDRESS = 'Address';
+export const BOIGRAPHY = 'BIO';
+export const WEBSITE = 'WEBSITE';
+export const PHONE = 'PHONE';
+export const SAVE = 'Save';
+export const CANCEL = 'Cancel';
+export const NAME = 'Name';
