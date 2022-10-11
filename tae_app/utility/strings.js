@@ -13,4 +13,6 @@ export const NAME = 'Name';
 export const NAME_ERROR = 'Name should be at least 4 symbols';
 export const EMAIL_ERROR = 'Email should be at least 6 symbols';
 export const BIRTH_ERROR = 'Date of Birth should be 10 symbols mm/dd/yyyy';
-export const ADDRESS_ERROR = 'Address should be at least 10 symbols'
+export const ADDRESS_ERROR = 'Address should be at least 10 symbols';
+export const CATEGORY = 'Category: ';
+export const NO_DATA = 'No data available';
