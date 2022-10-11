@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isMatch } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Modal, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
@@ -5,22 +6,27 @@ import BackgroundView from '../components/BackgroundView';
 import CustomButton from '../components/CustomButton';
 import { BACKGROUND_COLOR, ERROR_COLOR, LIGHT_GREY_COLOR, MAIN_INFO_TITLE_COLOR, NAME_COLOR, TAB_INACTIVE_COLOR, WHITE_COLOR } from '../styles/color';
 import { CAMERA, EDIT } from '../styles/images';
+import { USER_DATA } from '../utility/constants';
 import { ADDRESS, ADDRESS_ERROR, BIRTH_ERROR, BOIGRAPHY, CANCEL, DATEBIRTH, EMAIL, EMAIL_ERROR, NAME, NAME_ERROR, PHONE, SAVE, WEBSITE } from '../utility/strings';
 import { scale } from '../utility/utility';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserData } from '../../redux/actions';
 
 
 const ProfileScreen = (props) => {
 
     const [modalEditProfile, setModalEditProfile] = useState(false);
+    const userData = useSelector((state) => state.userDataReducer)
+    const dispatch = useDispatch()
 
     // user data
-    const [name, setName] = useState("Norton Montana");
-    const [email, setEmail] = useState('emailexample@gmail.com');
-    const [birth, setBirth] = useState('01/01/1950');
-    const [address, setAddress] = useState('502 White St.Fresno, CA 93727');
-    const [bio, setBio] = useState('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.');
-    const [website, setWebsite] = useState('www.superwebsite.com');
-    const [number, setNumber] = useState('123-123-3456');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [birth, setBirth] = useState('');
+    const [address, setAddress] = useState('');
+    const [bio, setBio] = useState('');
+    const [website, setWebsite] = useState('');
+    const [number, setNumber] = useState('');
 
     // edit data
     const [nname, setNName] = useState('');
@@ -38,15 +44,24 @@ const ProfileScreen = (props) => {
     const [addressCorrect, setAddressCorrect] = useState(true);
 
     useEffect(() => {
-        console.log('hello')
-    });
+        getUserData()
+    }, [userData] )
+
+    async function getUserData() {
+        setName(userData.userData.name)
+        setEmail(userData.userData.email)
+        setBirth(userData.userData.birth)
+        setAddress(userData.userData.address)
+        setBio(userData.userData.bio)
+        setWebsite(userData.userData.website)
+        setNumber(userData.userData.number)
+    }
 
     function editProfile() {
         setNameCorrect(true)
         setEmailCorrect(true)
         setBirthCorrect(true)
         setAddressCorrect(true)
-
         setModalEditProfile(true)
     }
 
@@ -61,15 +76,19 @@ const ProfileScreen = (props) => {
         setModalEditProfile(false)
     }
 
-    function saveProfileData() {
+    async function saveProfileData() {
         if (checkActive()) {
-            setName(nname != name && nname != '' ? nname : name)
-            setEmail(nemail != email && nemail != '' ? nemail : email)
-            setBirth(nbirth != birth && nbirth != '' ? nbirth : birth)
-            setAddress(naddress != address && naddress != '' ? naddress : address)
-            setBio(nbio != '' ? nbio : bio)
-            setWebsite(nwebsite != '' ? nwebsite : website)
-            setNumber(nnumber != '' ? nnumber : number)
+            let newData = {
+                name: (nname != name && nname != '' ? nname : name),
+                email: (nemail != email && nemail != '' ? nemail : email),
+                birth: (nbirth != birth && nbirth != '' ? nbirth : birth),
+                address: (naddress != address && naddress != '' ? naddress : address),
+                bio: (nbio != '' ? nbio : bio).toString(),
+                website: (nwebsite != '' ? nwebsite : website),
+                number: (nnumber != '' ? nnumber : number)
+            }
+            dispatch(setUserData(newData))
+            AsyncStorage.setItem(USER_DATA, JSON.stringify(newData))
             hideEditProfile()
         }
     }
