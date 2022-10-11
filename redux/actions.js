@@ -1,8 +1,8 @@
-export const SET_TASK_TYPE = 'SET_TASK_TYPE';
+export const SET_USER_DATA = 'SET_USER_DATA';
 
-export const setTaskType = (type) => (dispatch) => {
+export const setUserData = (data) => (dispatch) => {
     dispatch({
-        type: SET_TASK_TYPE,
-        payload: type
+        type: SET_USER_DATA,
+        payload: data
     })
 };

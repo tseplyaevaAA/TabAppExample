@@ -58,7 +58,7 @@ const NewsScreen = (props) => {
                 <FlatList
                     data={data}
                     renderItem={({ item, index }) => getItem(item, index)}
-                    keyExtractor={(item, index) => index.toString()}
+                    keyExtractor={(item, index) => item.description+index+item.title}
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={() => { fetchPosts() }} />
                     }
