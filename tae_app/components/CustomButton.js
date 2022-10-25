@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         marginHorizontal: '10%',
     },
     textStyle: {
-        fontFamily: 'Roboto',
+        //fontFamily: 'System', //For iOS it is going to be San Francisco and for Android this will be Roboto
         fontSize: 18,
         fontWeight: 'bold'
     }
