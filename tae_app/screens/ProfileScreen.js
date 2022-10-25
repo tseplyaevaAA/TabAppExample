@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isMatch } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Modal, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, StyleSheet, Modal, Text, TextInput, Image, TouchableOpacity, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import BackgroundView from '../components/BackgroundView';
 import CustomButton from '../components/CustomButton';
 import { BACKGROUND_COLOR, ERROR_COLOR, LIGHT_GREY_COLOR, MAIN_INFO_TITLE_COLOR, NAME_COLOR, TAB_INACTIVE_COLOR, WHITE_COLOR } from '../styles/color';
@@ -45,7 +45,7 @@ const ProfileScreen = (props) => {
 
     useEffect(() => {
         getUserData()
-    }, [userData] )
+    }, [userData])
 
     async function getUserData() {
         setName(userData.userData.name)
@@ -129,101 +129,110 @@ const ProfileScreen = (props) => {
                     transparent={true}
                     visible={true}
                 >
-                    <ScrollView style={styles.editViewContainer}>
-                        <View style={styles.editFieldsContainer}>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{NAME}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={name}
-                                    value={nname}
-                                    onChangeText={setNName}
-                                    onSubmitEditing={() => { validateName() }}
-                                    maxLength={50}>
-                                </TextInput>
-                                {!nameCorrect && <Text style={styles.errorStyle}>{NAME_ERROR}</Text>}
+                    <SafeAreaView style={styles.mainContainerStyle}>
+                        <KeyboardAvoidingView
+                            behavior={Platform.OS === "ios" ? 'padding' : "height"}
+                            style={{ flex: 1 }}>
+                            <ScrollView style={styles.editViewContainer}>
+                                <View style={styles.editFieldsContainer}>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{NAME}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={name}
+                                            value={nname}
+                                            onChangeText={setNName}
+                                            onSubmitEditing={() => { validateName() }}
+                                            maxLength={50}>
+                                        </TextInput>
+                                        {!nameCorrect && <Text style={styles.errorStyle}>{NAME_ERROR}</Text>}
+                                    </View>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{EMAIL}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={email}
+                                            value={nemail}
+                                            onChangeText={setNEmail}
+                                            onSubmitEditing={() => { validateEmail() }}
+                                            maxLength={30}>
+                                        </TextInput>
+                                        {!emailCorrect && <Text style={styles.errorStyle}>{EMAIL_ERROR}</Text>}
+                                    </View>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{DATEBIRTH}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={birth}
+                                            value={nbirth}
+                                            onChangeText={setNBirth}
+                                            onSubmitEditing={() => { validateBirth() }}
+                                            maxLength={10}>
+                                        </TextInput>
+                                        {!birthCorrect && <Text style={styles.errorStyle}>{BIRTH_ERROR}</Text>}
+                                    </View>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{ADDRESS}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={address}
+                                            value={naddress}
+                                            onChangeText={setNAddress}
+                                            onSubmitEditing={() => { validateAddress() }}
+                                            maxLength={100}>
+                                        </TextInput>
+                                        {!addressCorrect && <Text style={styles.errorStyle}>{ADDRESS_ERROR}</Text>}
+                                    </View>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{BOIGRAPHY}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={bio}
+                                            value={nbio}
+                                            onChangeText={setNBio}
+                                            maxLength={150}>
+                                        </TextInput>
+                                    </View>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{WEBSITE}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={website}
+                                            value={nwebsite}
+                                            onChangeText={setNWebsite}
+                                            maxLength={150}>
+                                        </TextInput>
+                                    </View>
+                                    <View style={styles.editItem}>
+                                        <Text style={styles.infoHeaderStyle}>{PHONE}</Text>
+                                        <TextInput
+                                            style={styles.textInputStyle}
+                                            placeholder={number}
+                                            value={nnumber}
+                                            onChangeText={setNNumber}
+                                            maxLength={12}>
+                                        </TextInput>
+                                    </View>
+                                </View>
+                            </ScrollView>
+                            <View style={styles.btnResContainer}>
+                                <CustomButton
+                                    text={CANCEL}
+                                    active={true}
+                                    action={() => { hideEditProfile() }}>
+                                </CustomButton>
+                                <CustomButton
+                                    text={SAVE}
+                                    active={checkActive()}
+                                    action={() => { saveProfileData() }}>
+                                </CustomButton>
                             </View>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{EMAIL}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={email}
-                                    value={nemail}
-                                    onChangeText={setNEmail}
-                                    onSubmitEditing={() => { validateEmail() }}
-                                    maxLength={30}>
-                                </TextInput>
-                                {!emailCorrect && <Text style={styles.errorStyle}>{EMAIL_ERROR}</Text>}
-                            </View>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{DATEBIRTH}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={birth}
-                                    value={nbirth}
-                                    onChangeText={setNBirth}
-                                    onSubmitEditing={() => { validateBirth() }}
-                                    maxLength={10}>
-                                </TextInput>
-                                {!birthCorrect && <Text style={styles.errorStyle}>{BIRTH_ERROR}</Text>}
-                            </View>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{ADDRESS}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={address}
-                                    value={naddress}
-                                    onChangeText={setNAddress}
-                                    onSubmitEditing={() => { validateAddress() }}
-                                    maxLength={100}>
-                                </TextInput>
-                                {!addressCorrect && <Text style={styles.errorStyle}>{ADDRESS_ERROR}</Text>}
-                            </View>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{BOIGRAPHY}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={bio}
-                                    value={nbio}
-                                    onChangeText={setNBio}
-                                    maxLength={150}>
-                                </TextInput>
-                            </View>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{WEBSITE}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={website}
-                                    value={nwebsite}
-                                    onChangeText={setNWebsite}
-                                    maxLength={150}>
-                                </TextInput>
-                            </View>
-                            <View style={styles.editItem}>
-                                <Text style={styles.infoHeaderStyle}>{PHONE}</Text>
-                                <TextInput
-                                    style={styles.textInputStyle}
-                                    placeholder={number}
-                                    value={nnumber}
-                                    onChangeText={setNNumber}
-                                    maxLength={12}>
-                                </TextInput>
-                            </View>
-                        </View>
-                        <View style={styles.btnResContainer}>
-                            <CustomButton
-                                text={CANCEL}
-                                active={true}
-                                action={() => { hideEditProfile() }}>
-                            </CustomButton>
-                            <CustomButton
-                                text={SAVE}
-                                active={checkActive()}
-                                action={() => { saveProfileData() }}>
-                            </CustomButton>
-                        </View>
-                    </ScrollView>
-                </Modal>}
+                        </KeyboardAvoidingView>
+                    </SafeAreaView>
+                </Modal>
+
+
+            }
             <BackgroundView>
                 <View style={styles.contentContainer}>
                     <View style={styles.baseInfoContainer}>
@@ -248,19 +257,19 @@ const ProfileScreen = (props) => {
                     </View>
                     {bio != '' &&
                         <View style={styles.infoContainer}>
-                            <Text style={styles.infoHeaderStyle}>{BOIGRAPHY}</Text>
+                            <Text style={styles.infoHeaderStyle}>{BOIGRAPHY.toUpperCase()}</Text>
                             <Text style={styles.infoSubheaderStyle} numberOfLines={6}>{bio}</Text>
                         </View>
                     }
                     {!(number == ' ' && website == ' ') && <View style={[styles.infoContainer, { height: 'auto' }]}>
                         {website != ' ' &&
                             <View style={styles.contactContainer}>
-                                <Text style={styles.infoHeaderStyle}>{WEBSITE}</Text>
+                                <Text style={styles.infoHeaderStyle}>{WEBSITE.toUpperCase()}</Text>
                                 <Text style={styles.contactTextStyle} numberOfLines={1}>{website}</Text>
                             </View>}
                         {number != ' ' &&
                             <View style={styles.contactContainer}>
-                                <Text style={styles.infoHeaderStyle}>{PHONE}</Text>
+                                <Text style={styles.infoHeaderStyle}>{PHONE.toUpperCase()}</Text>
                                 <Text style={styles.contactTextStyle} numberOfLines={1}>{number}</Text>
                             </View>}
                     </View>}
@@ -378,8 +387,7 @@ const styles = StyleSheet.create({
     },
     editViewContainer: {
         backgroundColor: BACKGROUND_COLOR,
-        flex: 1,
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
     editFieldsContainer: {
         height: scale(248),
@@ -390,6 +398,8 @@ const styles = StyleSheet.create({
         height: scale(25),
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: BACKGROUND_COLOR,
     },
     textInputStyle: {
         height: scale(15),
@@ -413,6 +423,10 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         color: ERROR_COLOR,
         marginTop: scale(2)
+    },
+    mainContainerStyle: {
+        height: '100%',
+        width: '100%',
     }
 
 });
